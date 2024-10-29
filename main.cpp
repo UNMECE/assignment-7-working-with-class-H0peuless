@@ -1,6 +1,7 @@
 #include <cstdlib>
 #include <cmath>
 #include <iostream>
+#include <numeric>
 using namespace std;
 
 class Electric_Field{
@@ -35,14 +36,6 @@ class Electric_Field{
     double y = this->E[1];
     double z = this->E[2];
     return sqrt(x*x + y*y + z*z);
-  };
-
-  double calculateInnerProduct(){
-    double x = this->E[0];
-    double y = this->E[1];
-    double z = this->E[2];
-
-    return x*x + y*y + z*z;
   };
 
   double getX(){
@@ -101,14 +94,6 @@ public:
     return sqrt(x*x + y*y + z*z);
   };
 
-  double* calculateUnitVector(double* vector) {
-    vector =  (double *) malloc(3 * sizeof(double));
-    double magnitude = this->calculateMagnitude();
-    vector[0] = this->M[0]/magnitude;
-    vector[1] = this->M[1]/magnitude;
-    vector[2] = this->M[2]/magnitude;
-    return vector;
-  }
 
   double getX(){
     return this->M[0];
@@ -143,25 +128,33 @@ int main() {
   Magnetic_Field M2 = Magnetic_Field::M_components(x,y,z);
 
 
-  E1.setX(x-1e2);
-  E1.setY(y+30);
-  E1.setZ(z+1e2);
+  E1.setX(10);
+  E1.setY(10);
+  E1.setZ(10);
 
   M1.setX(10);
   M1.setY(10);
   M1.setZ(10);
 
-  double* vec = nullptr;
-  vec = M1.calculateUnitVector(vec);
+  double magnitude = E1.calculateMagnitude();
 
   cout << "E1 magnitude: " << E1.calculateMagnitude() << endl;
   cout << "E2 magnitude: " << E2.calculateMagnitude() << endl;
   cout << "M1 magnitude: " << M1.calculateMagnitude() << endl;
   cout << "M2 magnitude: " << M2.calculateMagnitude() << endl;
-  cout << "E1 inner product: " << E1.calculateInnerProduct() << endl;
-  cout << "M1 unit vector: x=" << vec[0] << " y=" << vec[1] << " z=" << vec[2] << endl;
 
-  free(vec);
+
+  double inner_product = pow(E1.getX(),2) + pow(E1.getY(),2) + pow(E1.getZ(),2);
+  auto vect = (double*)malloc(sizeof(double)*3);
+
+  vect[0] = M1.getX()/magnitude;
+  vect[1] = M1.getY()/magnitude;
+  vect[2] = M1.getZ()/magnitude;
+
+  cout << "E1 inner product: " << inner_product << endl;
+  cout << "M1 unit vector: x=" << vect[0] << " y=" << vect[1] << " z=" << vect[2] << endl;
+
+  free(vect);
 
   return 0;
 }

@@ -42,7 +42,7 @@ class Electric_Field{
     double y = this->E[1];
     double z = this->E[2];
 
-    return x*y*z; //u1(0,x) u1*v1 = 0 u2*v2=x*y;
+    return x*x + y*y + z*z;
   };
 
   double getX(){
@@ -158,6 +158,7 @@ int main() {
   cout << "E2 magnitude: " << E2.calculateMagnitude() << endl;
   cout << "M1 magnitude: " << M1.calculateMagnitude() << endl;
   cout << "M2 magnitude: " << M2.calculateMagnitude() << endl;
+  cout << "E1 inner product: " << E1.calculateInnerProduct() << endl;
   cout << "M1 unit vector: x=" << vec[0] << " y=" << vec[1] << " z=" << vec[2] << endl;
 
   free(vec);
